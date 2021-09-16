@@ -17,9 +17,10 @@ POST /usuarios crea un usuario pendiente de validar
 POST /usuarios/registro logea a un usuario retornando un token
 GET /usuarios/validado/:codigoRegistro valida un usuario recien registrado
 PUT /usuarios/:idUsuario edita campos del usuario
-PUT /usuarios/:idUsuario y si quiero cambiar el nombre? tengo que hacer otro endpoint?
-PUT quiero recuperar la contraseña
-DELETE /usuarios/:idUser
+PUT /usuarios/:idUsuario/password cambia la pass
+PUT /usuarios/password/recover envia un correo de reseteo
+PUT /usuarios/password/reset resetea la contrasena
+DELETE /usuarios/:idUser borra un usuario
 
 
 
