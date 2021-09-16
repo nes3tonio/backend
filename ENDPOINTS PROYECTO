@@ -1,0 +1,32 @@
+ENDPOINTS DE ESPACIOS
+GET /espacios obtengo todos los espacios
+GET /espacios/:idEspacios un espacio en particular
+POST /espacios inserto un espacio nuevo
+POST /espacios/:idEspacios/fotos añado una foto
+POST /espacios/:idEspacios/votos añado un voto al espacio
+PUT /espacios/:idEspacios edito un espacio concreto
+DELETE /espacios/:idEspacios elimino un espacio
+DELETE /espacios/:idEspacios/fotos/:idFoto elimino una foto
+
+
+
+ENDPOINTS DE USUARIOS
+
+GET /usuarios/:idUsuario me da info de un usuario concreto
+POST /usuarios crea un usuario pendiente de validar
+POST /usuarios/registro logea a un usuario retornando un token
+GET /usuarios/validado/:codigoRegistro valida un usuario recien registrado
+PUT /usuarios/:idUsuario edita campos del usuario
+PUT /usuarios/:idUsuario y si quiero cambiar el nombre? tengo que hacer otro endpoint?
+PUT quiero recuperar la contraseña
+DELETE /usuarios/:idUser
+
+
+
+
+
+
+ENDPOINTS DE RESERVAS---DUDASSSSSS----------
+
+GET /reservas/id pillo una reserva en concreto
+PUT /

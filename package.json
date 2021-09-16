@@ -1,0 +1,39 @@
+{
+  "name": "proyecto",
+  "version": "1.0.0",
+  "main": "ftdfadaufba.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.23.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "fs-extra": "^10.0.0",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.0",
+    "node": "^16.9.1",
+    "sendgrid": "^5.2.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "faker": "^5.5.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndreeGarcia/PROYECTO.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AndreeGarcia/PROYECTO/issues"
+  },
+  "homepage": "https://github.com/AndreeGarcia/PROYECTO#readme",
+  "description": ""
+}
