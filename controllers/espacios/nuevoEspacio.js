@@ -2,7 +2,7 @@ const getDB = require('../../bbdd/getDB');
 const { formatDate, validate } = require('../../helpers');
 
 
-const newEspacio = async (req, res, next) => {
+const nuevoEspacio = async (req, res, next) => {
     let connection;
 
     try {
@@ -56,4 +56,4 @@ const newEspacio = async (req, res, next) => {
     }
 };
 
-module.exports = newEspacio;
+module.exports = nuevoEspacio;

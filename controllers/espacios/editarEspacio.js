@@ -1,6 +1,8 @@
 const getDB = require('../../bbdd/getDB');
 const { formatDate } = require('../../helpers');
 
+
+
 const editarEspacio = async (req, res, next) => {
     let connection;
 

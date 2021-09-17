@@ -15,7 +15,7 @@ const obtenerEspacio = async (req, res, next) => {
             `
                 SELECT espacios.id, espacios.descripcion, espacios.precio, espacios.capacidad, espacios.direccion, espacios.cif, espacios.razonsocial, espacios.contacto, espacios.createdAt, espacios.idUsuario, AVG(IFNULL(votos.voto, 0)) AS votos
                 FROM espacios
-                LEFT JOIN votos ON (espacios.id = votos.id.Espacio)
+                LEFT JOIN votos ON (espacios.id = votos.idEspacio)
                 WHERE espacios.id = ?
             `,
             [idEspacio]
@@ -23,7 +23,7 @@ const obtenerEspacio = async (req, res, next) => {
 
         res.send({
             status: 'ok',
-            entry,
+            espacio,
         });
     } catch (error) {
         next(error);

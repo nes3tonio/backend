@@ -24,7 +24,7 @@ const { PORT } = process.env;
 
 //CONTROLADORES
 //entrada
-const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio } = require('./controllers/espacios')
+const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio, anadoFoto, borroEspacio } = require('./controllers/espacios')
 
 
 
@@ -55,7 +55,18 @@ app.get('/espacios', listadoEspacios);
 
 //obtener un espacio en particular
 
-app.get('/espacios', obtenerEspacio);
+app.get('/espacios/:idEspacio', obtenerEspacio);
+
+
+//añado una foto
+app.post('/espacios/:idEspacios/fotos', anadoFoto);
+
+// borro un espacio
+
+app.delete('/espacios/:idEspacios', borroEspacio);
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Server listening at http://localhost:${PORT}`);

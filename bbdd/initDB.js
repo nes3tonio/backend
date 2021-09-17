@@ -60,8 +60,8 @@ async function main() {
             id INT PRIMARY KEY AUTO_INCREMENT,
             idUsuario INT NOT NULL,
             FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
-            idEspacios INT NOT NULL,
-            FOREIGN KEY (idEspacios) REFERENCES espacios(id),
+            idEspacio INT NOT NULL,
+            FOREIGN KEY (idEspacio) REFERENCES espacios(id),
             precio FLOAT, 
             ocupacion BOOLEAN DEFAULT FALSE,
             checkIn DATETIME NOT NULL,
@@ -75,8 +75,8 @@ async function main() {
             id INT PRIMARY KEY AUTO_INCREMENT,
             idUsuario INT NOT NULL,
             FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
-            idEspacios INT NOT NULL,
-            FOREIGN KEY (idEspacios) REFERENCES espacios(id),
+            idEspacio INT NOT NULL,
+            FOREIGN KEY (idEspacio) REFERENCES espacios(id),
             voto TINYINT NOT NULL,
             CONSTRAINT votos_CK1 CHECK (voto IN(1, 2, 3, 4, 5)),
             createdAt DATETIME NOT NULL
@@ -87,8 +87,8 @@ async function main() {
         CREATE TABLE fotos (
             id INT PRIMARY KEY AUTO_INCREMENT,
             nombre VARCHAR(100),
-            idEspacios INT NOT NULL,
-            FOREIGN KEY (idEspacios) REFERENCES espacios(id),
+            idEspacio INT NOT NULL,
+            FOREIGN KEY (idEspacio) REFERENCES espacios(id),
             createdAt DATETIME NOT NULL
               )
             `);
