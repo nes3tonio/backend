@@ -1,7 +1,7 @@
 ENDPOINTS DE ESPACIOS
 GET /espacios obtengo todos los espacios
-GET /espacios/:idEspacios un espacio en particular
-POST /espacios inserto un espacio nuevo
+GET /espacios/:idEspacios un espacio en particular --------HECHO
+POST /espacios inserto un espacio nuevo --------HECHO
 POST /espacios/:idEspacios/fotos añado una foto
 POST /espacios/:idEspacios/votos añado un voto al espacio
 PUT /espacios/:idEspacios edito un espacio concreto

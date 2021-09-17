@@ -24,9 +24,8 @@ const { PORT } = process.env;
 
 //CONTROLADORES
 //entrada
+const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio } = require('./controllers/espacios')
 
-const newEspacio = require('./controllers/espacios/newEspacio');
-const editarEspacio = require('./controllers/espacios/editarEspacio');
 
 
 
@@ -45,10 +44,18 @@ app.use(express.json());
 
 //--ENDPOINTS DE ESPACIOS
 //agrego un espacio nuevo
-app.post('/espacios', newEspacio);
+app.post('/espacios', nuevoEspacio);
 
 //edito un espacio
 app.put('/espacios/:idEspacio', editarEspacio);
+
+//obtengo la lista de espacios
+app.get('/espacios', listadoEspacios);
+
+
+//obtener un espacio en particular
+
+app.get('/espacios', obtenerEspacio);
 
 app.listen(PORT, () => {
     console.log(`Server listening at http://localhost:${PORT}`);

@@ -31,7 +31,7 @@ const newEspacio = async (req, res, next) => {
         const createdAt = formatDate(new Date());
 
         // Creamos la entrada y guardamos el valor que retorna "connection.query".
-        const [newEspacio] = await connection.query(
+        const [nuevoEspacio] = await connection.query(
             `
                 INSERT INTO espacios (descripcion, precio, capacidad, direccion, cif, razonsocial, contacto, idUsuario, createdAt)
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
