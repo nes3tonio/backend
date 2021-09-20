@@ -7,7 +7,7 @@ const anadoFoto = async (req, res, next) => {
     try {
         connection = await getDB();
 
-        // Obtenemos el id de la entrada.
+        // Obtenemos el id del espacio.
         const { idEspacio } = req.params;
 
         // Si no recibimos ninguna foto lanzamos un error.
@@ -20,12 +20,12 @@ const anadoFoto = async (req, res, next) => {
         // Comprobamos cuántas fotos tiene la entrada.
         const [fotos] = await connection.query(
             `SELECT id FROM fotos WHERE idEspacio = ?`,
-            [idFoto]
+            [idEspacio]
         );
 
         // Si hay 15 fotos lanzamos un error.
         if (fotos.length >= 15) {
-            const error = new Error('Esta entrada ya tiene tres fotos');
+            const error = new Error('Esta entrada ya tiene quince fotos');
             error.httpStatus = 403;
             throw error;
         }
@@ -34,7 +34,7 @@ const anadoFoto = async (req, res, next) => {
         let nombreFoto;
 
         try {
-            // Guardamos la foto en el servidor y obtenemos el nombre de la misma.
+            // Guardamos la foto en el disco y obtenemos el nombre de la misma.
             nombreFoto = await fotoGuardada(req.files.foto);
         } catch (_) {
             const error = new Error('Formato de archivo incorrecto');
@@ -42,7 +42,7 @@ const anadoFoto = async (req, res, next) => {
             throw error;
         }
 
-        // Guardamos la foto.
+        // Guardamos el nombre de la foto en la base de datos
         await connection.query(
             `INSERT INTO fotos (nombre, idEspacio, createdAt) VALUES (?, ?, ?)`,
             [nombreFoto, idEspacio, formatDate(new Date())]

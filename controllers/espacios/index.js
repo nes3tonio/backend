@@ -3,7 +3,8 @@ const listadoEspacios = require('./listadoEspacios');
 const nuevoEspacio = require('./nuevoEspacio');
 const obtenerEspacio = require('./obtenerEspacio');
 const anadoFoto = require('./anadoFoto');
-const borroEspacio = require('./borroEspacio')
+const borroEspacio = require('./borroEspacio');
+const borroFotoEspacio = require('./borroFotoEspacio')
 
 
 
@@ -13,6 +14,7 @@ module.exports = {
     nuevoEspacio,
     obtenerEspacio,
     anadoFoto,
-    borroEspacio
+    borroEspacio,
+    borroFotoEspacio
     
 };

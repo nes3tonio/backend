@@ -1,24 +1,28 @@
 ENDPOINTS DE ESPACIOS
 GET /espacios obtengo todos los espacios ------------HECHO
-GET /espacios/:idEspacios un espacio en particular --------HECHO
+GET /espacios/:idEspacio/reservas/:idReserva obtengo datos de la reserva-------------------
+GET /espacios/:idEspacio un espacio en particular --------HECHO
 POST /espacios inserto un espacio nuevo --------HECHO
-POST /espacios/:idEspacios/fotos añado una foto -----------HECHO(como se sube una foto desde postman???DUDASSSSSS)
-POST /espacios/:idEspacios/votos añado un voto al espacio
-PUT /espacios/:idEspacios edito un espacio concreto ----------HECHO
-DELETE /espacios/:idEspacios elimino un espacio ------------REVISAR PORQUE ME DA MENSAJE DE QUE SE HA ELIMINADO Y NO LO HACE!!!!
-DELETE /espacios/:idEspacios/fotos/:idFoto elimino una foto
+POST /espacios/:idEspacio/fotos añado una foto -----------HECHO
+POST /espacios/:idEspacio/votos añado un voto al espacio-------------------------------------------
+PUT /espacios/:idEspacio edito un espacio concreto ----------HECHO
+DELETE /espacios/:idEspacio elimino un espacio ------------REVISAR PORQUE ME DA MENSAJE DE QUE SE HA ELIMINADO Y NO LO HACE!!!! se ha borrado
+DELETE /espacios/:idEspacio/fotos/:idFoto elimino una foto----------------HECHO
 
 
 
 ENDPOINTS DE USUARIOS
 
 GET /usuarios/:idUsuario me da info de un usuario concreto
+GET /usuarios/:idUsuario/reservas me devuelve los datos de reserva de un usuario
 POST /usuarios crea un usuario pendiente de validar
 POST /usuarios/registro logea a un usuario retornando un token
+POST /usuarios/:idUsuario/reservas/:idReservas el usuario reserva un espacio
 GET /usuarios/validado/:codigoRegistro valida un usuario recien registrado
 PUT /usuarios/:idUsuario edita campos del usuario
 PUT /usuarios/:idUsuario/password cambia la pass
 PUT /usuarios/password/recover envia un correo de reseteo
+PUT /usuarios/:idUsuario/reservas/:idReservas el usuario cambia datos en la reserva
 PUT /usuarios/password/reset resetea la contrasena
 DELETE /usuarios/:idUser borra un usuario
 

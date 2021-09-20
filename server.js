@@ -24,7 +24,7 @@ const { PORT } = process.env;
 
 //CONTROLADORES
 //entrada
-const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio, anadoFoto, borroEspacio } = require('./controllers/espacios')
+const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio, anadoFoto, borroEspacio, borroFotoEspacio } = require('./controllers/espacios')
 
 
 
@@ -35,6 +35,10 @@ app.use(morgan('dev'));
 
 //Deserializamos el body
 app.use(express.json());
+
+//deserializamos el body
+
+app.use(fileUpload());
 
 
 
@@ -59,11 +63,15 @@ app.get('/espacios/:idEspacio', obtenerEspacio);
 
 
 //añado una foto
-app.post('/espacios/:idEspacios/fotos', anadoFoto);
+app.post('/espacios/:idEspacio/fotos', anadoFoto);
 
 // borro un espacio
 
-app.delete('/espacios/:idEspacios', borroEspacio);
+app.delete('/espacios/:idEspacio', borroEspacio);
+
+//borro una foto de un espacio
+
+app.delete('/espacios/:idEspacio/fotos/:idFoto', borroFotoEspacio);
 
 
 
