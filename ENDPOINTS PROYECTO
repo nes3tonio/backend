@@ -13,7 +13,7 @@ DELETE /espacios/:idEspacio/fotos/:idFoto elimino una foto----------------HECHO
 
 ENDPOINTS DE USUARIOS
 
-GET /usuarios/:idUsuario me da info de un usuario concreto
+GET /usuarios/:idUsuario me da info de un usuario concreto ------------------------HECHO
 GET /usuarios/:idUsuario/reservas me devuelve los datos de reserva de un usuario
 POST /usuarios crea un usuario pendiente de validar
 POST /usuarios/registro logea a un usuario retornando un token

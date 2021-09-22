@@ -24,7 +24,11 @@ const { PORT } = process.env;
 
 //CONTROLADORES
 //entrada
-const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio, anadoFoto, borroEspacio, borroFotoEspacio } = require('./controllers/espacios')
+const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio, anadoFoto, borroEspacio, borroFotoEspacio } = require('./controllers/espacios');
+
+//usuarios
+const { obtenerUsuario, borrarUsuario, editarUsuario, nuevoUsuario, logearUsuario } = require('./controllers/usuarios'); 
+
 
 
 
@@ -74,6 +78,29 @@ app.delete('/espacios/:idEspacio', borroEspacio);
 app.delete('/espacios/:idEspacio/fotos/:idFoto', borroFotoEspacio);
 
 
+
+
+//ENDPOINTS DE USUARIOS
+
+//obtener usuario
+app.get('/usuarios/:idUsuario', authUsuario, obtenerUsuario);
+
+
+//Borrar Usuria
+
+app.delete ("/usuarios/:idUsuario", authUsuario, borrarUsuario);
+
+//editar usuario
+
+app.put('/usuarios/:idUsuario', authUsuario, editarUsuario);
+
+//creo un usuario pendiente de validar
+
+app.post('/usuarios', nuevoUsuario);
+
+//logeo usuario
+
+app.post('/usuarios/registro', logearUsuario)
 
 
 app.listen(PORT, () => {

@@ -5,6 +5,7 @@ const { ensureDir, unlink } = require('fs-extra');
 const uuid = require('uuid');
 const { UPLOADS_DIRECTORY, SENDGRID_API_KEY, SENDGRID_FROM } = process.env;
 const uploadsDir = path.join(__dirname, UPLOADS_DIRECTORY);
+const crypto = require('crypto');
 
 
 
@@ -64,9 +65,38 @@ async function deletePhoto(photoName) {
 
 
 
+function generateRandomString(length) {
+  return crypto.randomBytes(length).toString('hex');
+}
+
+
+async function verifyEmail(email, registrationCode) {
+  // Mensaje que enviaremos al usuario.
+  const emailBody = `
+      Te acabas de registrar en Diario de Viajes.
+      Pulsa en este link para verificar tu cuenta: ${process.env.PUBLIC_HOST}/users/validate/${registrationCode}
+  `;
+
+  try {
+      // Enviamos el mensaje al correo del usuario.
+      await sendMail({
+          to: email,
+          subject: 'Activa tu usuario de Diario de Viajes',
+          body: emailBody,
+      });
+  } catch (error) {
+      throw new Error('Error enviando el mensaje de verificación');
+  }
+}
+
+
+
+
 module.exports = {
   formatDate,
   validate,
   fotoGuardada,
-  deletePhoto
+  deletePhoto,
+  generateRandomString,
+  verifyEmail
 };
