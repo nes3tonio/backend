@@ -1,4 +1,5 @@
 const getDB = require('../../bbdd/getDB');
+
 const {
     deletePhoto,
     fotoGuardada,
@@ -17,7 +18,7 @@ const editarUsuario = async (req, res, next) => {
         const { idUsuario } = req.params;
 
         // Obtenemos el id del usuario que hace la request.
-        const idRequsuario = req.params.id;
+        const idRequsuario = req.authUsuario.id;
 
         // Obtenemos el nombre y el email.
         const { name, email } = req.body;
@@ -66,7 +67,7 @@ const editarUsuario = async (req, res, next) => {
             // Guardamos el avatar en la base de datos.
             await connection.query(
                 `UPDATE usuarios SET avatar = ?, modifiedAt = ? WHERE id = ?`,
-                [avatarName, modifiedAt, idusuario]
+                [avatarName, modifiedAt, idUsuario]
             );
         }
 
@@ -103,7 +104,7 @@ const editarUsuario = async (req, res, next) => {
             // Actualizamos el usuario en la base de datos junto al código de registro.
             await connection.query(
                 `UPDATE usuarios SET email = ?, registrationCode = ?, active = false, createdAt = ? WHERE id = ?`,
-                [email, registrationCode, modifiedAt, idusuario]
+                [email, registrationCode, modifiedAt, idUsuario]
             );
         }
 
@@ -118,7 +119,7 @@ const editarUsuario = async (req, res, next) => {
         if (name && usuario[0].name !== name) {
             await connection.query(
                 `UPDATE usuarios SET name = ?, modifiedAt = ? WHERE id = ?`,
-                [name, modifiedAt, idusuario]
+                [name, modifiedAt, idUsuario]
             );
         }
 

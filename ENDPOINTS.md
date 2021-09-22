@@ -17,11 +17,11 @@ GET [/usuarios/:idUsuario] me da info de un usuario concreto -------------------
 POST [/usuarios] crea un usuario pendiente de validar--------------------------HECHO
 POST [/usuarios/registro] logea a un usuario retornando un token----------------HECHO
 GET [/usuarios/validado/:codigoRegistro] valida un usuario recien registrado
-PUT [/usuarios/:idUsuario] edita campos del usuario
+PUT [/usuarios/:idUsuario] edita campos del usuario------------HECHO
 PUT [/usuarios/:idUsuario/password] cambia la pass
 PUT [/usuarios/password/recover] envia un correo de reseteo
 PUT [/usuarios/password/reset] resetea la contrasena
-DELETE [/usuarios/:idUser] borra un usuario
+DELETE [/usuarios/:idUser] borra un usuario------------------------DONE TE
 
 
 

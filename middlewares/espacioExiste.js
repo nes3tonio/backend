@@ -1,23 +1,23 @@
 const getDB = require('../bbdd/getDB');
 
-const entradaExiste = async (req, res, next) => {
+const espacioExiste = async (req, res, next) => {
     let connection;
 
     try {
         connection = await getDB();
 
-        // Obtenemos el id de la entrada.
+        // Obtenemos el id de la espacio.
         const { idEspacio } = req.params;
 
-        // Obtenemos la entrada.
+        // Obtenemos la espacio.
         const [espacio] = await connection.query(
             `SELECT id FROM espacios WHERE id = ?`,
             [idEspacio]
         );
 
-        // Si la entrada no existe lanzamos un error.
+        // Si la espacio no existe lanzamos un error.
         if (espacio.length < 1) {
-            const error = new Error('La entrada no existe');
+            const error = new Error('La espacio no existe');
             error.httpStatus = 404;
             throw error;
         }
@@ -30,4 +30,4 @@ const entradaExiste = async (req, res, next) => {
     }
 };
 
-module.exports = entradaExiste;
+module.exports = espacioExiste;

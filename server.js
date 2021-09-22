@@ -14,20 +14,21 @@ const { PORT } = process.env;
  * ## Middlewares ##
  * #################
  */
- const entradaExiste = require('./middlewares/entradaExiste');
+ const espacioExiste = require('./middlewares/espacioExiste');
  const usuarioExiste = require('./middlewares/usuarioExiste');
  const authUsuario = require('./middlewares/authUsuario');
  const canEdit = require('./middlewares/canEdit');
+ 
  
 
 
 
 //CONTROLADORES
-//entrada
+//espacio
 const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio, anadoFoto, borroEspacio, borroFotoEspacio } = require('./controllers/espacios');
 
 //usuarios
-const { obtenerUsuario, borrarUsuario, editarUsuario, nuevoUsuario, logearUsuario } = require('./controllers/usuarios'); 
+const { obtenerUsuario, borrarUsuario, editarUsuario, nuevoUsuario, logearUsuario, editarPass } = require('./controllers/usuarios'); 
 
 
 
@@ -86,7 +87,7 @@ app.delete('/espacios/:idEspacio/fotos/:idFoto', borroFotoEspacio);
 app.get('/usuarios/:idUsuario', authUsuario, obtenerUsuario);
 
 
-//Borrar Usuria
+//Borrar usuario
 
 app.delete ("/usuarios/:idUsuario", authUsuario, borrarUsuario);
 
@@ -100,9 +101,15 @@ app.post('/usuarios', nuevoUsuario);
 
 //logeo usuario
 
-app.post('/usuarios/login', logearUsuario)
+app.post('/usuarios/login', logearUsuario);
+
+//editar la contraseña de usuario
+
+app.put("/usuarios/:idUsuario/password", authUsuario, editarPass);
 
 
 app.listen(PORT, () => {
     console.log(`Server listening at http://localhost:${PORT}`);
 })
+
+

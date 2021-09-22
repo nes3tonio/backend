@@ -10,12 +10,15 @@ const borrarUsuario = async (req, res, next) => {
   let connection;
 
   try {
+    connection = await getDB();
+
     const { idUsuario } = req.params;
 
     //no sé si esto va a funcionar (el .role en concreto)
     const userRole = req.authUsuario.role;
-
+    
     if (userRole === "administrador") {
+      console.log("hola que tal AQUI");
       const error = new Error("No se puede borrar un usuario administrador");
       error.https = 403;
       throw error;
@@ -34,8 +37,7 @@ const borrarUsuario = async (req, res, next) => {
       "SELECT avatar FROM usuarios WHERE id = ?",
       [idUsuario]
     );
-
-    // para qué era el [0]?
+   
     if (usuario[0].avatar) {
       await deletePhoto(usuario[0].avatar);
     }

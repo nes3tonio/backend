@@ -69,7 +69,7 @@ async function main() {
             createdAt DATETIME NOT NULL           
         )
         `);
-    //QUE NECESITA ESPACIOS DEL RESTO DE ENTRADAS?? ESO ES UNA FOREIGN KEY
+    
     await connection.query(`
         CREATE TABLE votos (
             id INT PRIMARY KEY AUTO_INCREMENT,
