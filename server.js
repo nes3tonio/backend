@@ -100,7 +100,7 @@ app.post('/usuarios', nuevoUsuario);
 
 //logeo usuario
 
-app.post('/usuarios/registro', logearUsuario)
+app.post('/usuarios/login', logearUsuario)
 
 
 app.listen(PORT, () => {

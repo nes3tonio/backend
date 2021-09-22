@@ -27,7 +27,7 @@ async function main() {
             avatar VARCHAR(100),
             active BOOLEAN DEFAULT false,
             deleted BOOLEAN DEFAULT false,
-            role ENUM ("administrador", "registrado", "anonimo") DEFAULT "anonimo" NOT NULL,
+            role ENUM ("administrador", "normal") DEFAULT "normal" NOT NULL,
             registrationCode VARCHAR(100),
             recoverCode VARCHAR(100),
             createdAt DATETIME NOT NULL,
@@ -112,7 +112,6 @@ async function main() {
     for (let i = 0; i < USERS; i++) {
       // Datos de faker.
       const email = faker.internet.email();
-      const password = faker.internet.password();
       const name = faker.name.findName();
 
       // Fecha de cración.
@@ -120,7 +119,7 @@ async function main() {
 
       await connection.query(`
           INSERT INTO usuarios (email, password, name, active, createdAt)
-          VALUES ("${email}", "${password}", "${name}", true, "${createdAt}" )
+          VALUES ("${email}", SHA2("123456", 512), "${name}", true, "${createdAt}" )
       `);
     }
 

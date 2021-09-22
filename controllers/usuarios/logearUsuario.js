@@ -18,7 +18,7 @@ const logearusuario = async (req, res, next) => {
     }
 
     // Comprobamos si existe un usuario con ese email y esa contraseña.
-    const [usario] = await connection.query(
+    const [usuario] = await connection.query(
       `SELECT id, role, active FROM usuarios WHERE email = ? AND password = SHA2(?, 512)`,
       [email, password]
     );
