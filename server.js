@@ -28,7 +28,8 @@ const { PORT } = process.env;
 const { editarEspacio, listadoEspacios, nuevoEspacio, obtenerEspacio, anadoFoto, borroEspacio, borroFotoEspacio } = require('./controllers/espacios');
 
 //usuarios
-const { obtenerUsuario, borrarUsuario, editarUsuario, nuevoUsuario, logearUsuario, editarPass } = require('./controllers/usuarios'); 
+const { obtenerUsuario, borrarUsuario, editarUsuario, nuevoUsuario, logearUsuario, editarPass, recuperarPass, resetearPass } = require('./controllers/usuarios'); 
+
 
 
 
@@ -106,6 +107,13 @@ app.post('/usuarios/login', logearUsuario);
 //editar la contraseña de usuario
 
 app.put("/usuarios/:idUsuario/password", authUsuario, editarPass);
+
+//envia un codigo de recuperacion de pass al usuario
+
+app.put("/usuarios/password/recover", recuperarPass);
+
+//reseteo la pass
+app.put("/usuarios/password/reset", resetearPass);
 
 
 app.listen(PORT, () => {

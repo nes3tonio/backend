@@ -1,5 +1,5 @@
 const getDB = require('../../bbdd/getDB');
-const { fotoGuardada, formatDate } = require('../../helpers');
+const { savePhoto, formatDate } = require('../../helpers');
 
 const anadoFoto = async (req, res, next) => {
     let connection;
@@ -35,7 +35,7 @@ const anadoFoto = async (req, res, next) => {
 
         try {
             // Guardamos la foto en el disco y obtenemos el nombre de la misma.
-            nombreFoto = await fotoGuardada(req.files.foto);
+            nombreFoto = await savePhoto(req.files.foto);
         } catch (_) {
             const error = new Error('Formato de archivo incorrecto');
             error.httpStatus = 400;

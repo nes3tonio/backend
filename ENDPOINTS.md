@@ -18,9 +18,9 @@ POST [/usuarios] crea un usuario pendiente de validar--------------------------H
 POST [/usuarios/registro] logea a un usuario retornando un token----------------HECHO
 GET [/usuarios/validado/:codigoRegistro] valida un usuario recien registrado
 PUT [/usuarios/:idUsuario] edita campos del usuario------------HECHO
-PUT [/usuarios/:idUsuario/password] cambia la pass
-PUT [/usuarios/password/recover] envia un correo de reseteo
-PUT [/usuarios/password/reset] resetea la contrasena
+PUT [/usuarios/:idUsuario/password] cambia la pass---------------HECHO
+PUT [/usuarios/password/recover] envia un correo de reseteo ----------HECHO
+PUT [/usuarios/password/reset] resetea la contrasena ---------------HECHO
 DELETE [/usuarios/:idUser] borra un usuario------------------------DONE TE
 
 

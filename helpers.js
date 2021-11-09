@@ -1,13 +1,23 @@
 const { format } = require("date-fns");
-const sharp = require('sharp');
-const path = require('path');
-const { ensureDir, unlink } = require('fs-extra');
-const uuid = require('uuid');
+const sharp = require("sharp");
+const path = require("path");
+const { ensureDir, unlink } = require("fs-extra");
+const uuid = require("uuid");
 const { UPLOADS_DIRECTORY, SENDGRID_API_KEY, SENDGRID_FROM } = process.env;
 const uploadsDir = path.join(__dirname, UPLOADS_DIRECTORY);
-const crypto = require('crypto');
+const crypto = require("crypto");
 
+// Asignamos el API Key a Sendgrid.
+sgMail.setApiKey(SENDGRID_API_KEY);
 
+/**
+ * ####################
+ * ## getRandomValue ##
+ * ####################
+ */
+function getRandomValue(min, max) {
+  return Math.round(Math.random() * (max - min) + min);
+}
 
 function formatDate(date) {
   return format(date, "yyyy-MM-dd HH:mm:ss");
@@ -15,40 +25,37 @@ function formatDate(date) {
 
 async function validate(schema, data) {
   try {
-      await schema.validateAsync(data);
+    await schema.validateAsync(data);
   } catch (error) {
-      error.httpStatus = 400;
-      throw error;
+    error.httpStatus = 400;
+    throw error;
   }
 }
 
-async function fotoGuardada(imagen) {
+async function savePhoto(imagen) {
   // Comprobamos que el directorio de subida de imágenes existe.
 
   await ensureDir(uploadsDir);
-  
-  
-  
+
   // Convertimos la imagenn a un objeto sharp.
   const sharpimagen = sharp(imagen.data);
-  
+
   // Accedemos a los metadatos de la imagenn para comprobar su anchura.
   const imagenInfo = await sharpimagen.metadata();
-  
+
   // Definimos el ancho máximo.
   const imagen_MAX_WIDTH = 1000;
-  
+
   // Si el ancho de la imagenn supera el ancho máximo establecido
   // redimensinamos la imagenn.
   if (imagenInfo.width > imagen_MAX_WIDTH) sharpimagen.resize(imagen_MAX_WIDTH);
-  
+
   // Generamos un nombre único para la imagenn.
   const imagennombre = `${uuid.v4()}.jpg`;
-  
 
   // Creamos la ruta absoluta a la nueva ubicación de la imagenn.
   const imagenPath = path.join(uploadsDir, imagennombre);
-  
+
   // Guardamos la imagenn en el directorio de uploads.
   await sharpimagen.toFile(imagenPath);
   // Retornamos el nombre del fichero.
@@ -63,12 +70,33 @@ async function deletePhoto(photoName) {
   await unlink(photoPath);
 }
 
-
-
 function generateRandomString(length) {
-  return crypto.randomBytes(length).toString('hex');
+  return crypto.randomBytes(length).toString("hex");
 }
 
+/**
+ * ##############
+ * ## sendMail ##
+ * ##############
+ */
+async function sendMail({ to, subject, body }) {
+  // Preparamos el mensaje.
+  const msg = {
+    to,
+    from: SENDGRID_FROM,
+    subject,
+    text: body,
+    html: `
+          <div>
+              <h1>${subject}</h1>
+              <p>${body}</p>
+          </div>
+      `,
+  };
+
+  // Enviamos el mensaje.
+  await sgMail.send(msg);
+}
 
 async function verifyEmail(email, registrationCode) {
   // Mensaje que enviaremos al usuario.
@@ -78,25 +106,24 @@ async function verifyEmail(email, registrationCode) {
   `;
 
   try {
-      // Enviamos el mensaje al correo del usuario.
-      await sendMail({
-          to: email,
-          subject: 'Activa tu usuario de Diario de Viajes',
-          body: emailBody,
-      });
+    // Enviamos el mensaje al correo del usuario.
+    await sendMail({
+      to: email,
+      subject: "Activa tu usuario de Diario de Viajes",
+      body: emailBody,
+    });
   } catch (error) {
-      throw new Error('Error enviando el mensaje de verificación');
+    throw new Error("Error enviando el mensaje de verificación");
   }
 }
 
-
-
-
 module.exports = {
   formatDate,
-  validate,
-  fotoGuardada,
+  getRandomValue,
+  savePhoto,
   deletePhoto,
   generateRandomString,
-  verifyEmail
+  sendMail,
+  verifyEmail,
+  validate,
 };

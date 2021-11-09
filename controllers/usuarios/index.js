@@ -3,7 +3,9 @@ const borrarUsuario = require("./borrarUsuario");
 const editarUsuario = require("./editarUsuario");
 const nuevoUsuario = require("./nuevoUsuario");
 const logearUsuario = require("./logearUsuario");
-const editarPass = require('./editarPass')
+const editarPass = require('./editarPass');
+const recuperarPass= require("./recuperarPass");
+const resetearPass = require("./resetearPass")
 
 
 module.exports = {
@@ -12,7 +14,9 @@ module.exports = {
     editarUsuario,
     nuevoUsuario,
     logearUsuario,
-    editarPass
+    editarPass,
+    recuperarPass,
+    resetearPass
 
 }
 

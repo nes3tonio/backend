@@ -2,7 +2,7 @@ const getDB = require('../../bbdd/getDB');
 
 const {
     deletePhoto,
-    fotoGuardada,
+    savePhoto,
     formatDate,
     generateRandomString,
     verifyEmail,
@@ -62,7 +62,7 @@ const editarUsuario = async (req, res, next) => {
             if (usuario[0].avatar) await deletePhoto(usuario[0].avatar);
 
             // Guardamos la foto el disco y obtenemos su nombre.
-            const avatarName = await fotoGuardada(req.files.avatar);
+            const avatarName = await savePhoto(req.files.avatar);
 
             // Guardamos el avatar en la base de datos.
             await connection.query(
