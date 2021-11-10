@@ -101,7 +101,7 @@ async function sendMail({ to, subject, body }) {
 async function verifyEmail(email, registrationCode) {
   // Mensaje que enviaremos al usuario.
   const emailBody = `
-      Te acabas de registrar en Diario de Viajes.
+      Te acabas de registrar en ANDA.
       Pulsa en este link para verificar tu cuenta: ${process.env.PUBLIC_HOST}/users/validate/${registrationCode}
   `;
 
@@ -109,7 +109,7 @@ async function verifyEmail(email, registrationCode) {
     // Enviamos el mensaje al correo del usuario.
     await sendMail({
       to: email,
-      subject: "Activa tu usuario de Diario de Viajes",
+      subject: "Activa tu usuario de ANDA",
       body: emailBody,
     });
   } catch (error) {
