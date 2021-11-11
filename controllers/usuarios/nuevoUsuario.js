@@ -1,11 +1,11 @@
-const getDB = require('../../bbdd/getDB');
+const getDB = require("../../bbdd/getDB");
 const {
   formatDate,
   verifyEmail,
   generateRandomString,
   validate,
-} = require('../../helpers');
-const nuevoUsuarioSchema = require('../../schemas/nuevoUsuarioSchema');
+} = require("../../helpers");
+const nuevoUsuarioSchema = require("../../schemas/nuevoUsuarioSchema");
 
 const nuevoUsuario = async (req, res, next) => {
   let connection;
@@ -27,16 +27,16 @@ const nuevoUsuario = async (req, res, next) => {
 
     // Si el email existe lanzamos un error.
     if (usuario.length > 0) {
-      const error = new Error('Ya existe un usuario registrado con ese email');
+      const error = new Error("Ya existe un usuario registrado con ese email");
       error.httpStatus = 409;
       throw error;
     }
 
     // Creamos un código de registro de un solo uso.
-    //const registrationCode = generateRandomString(40);
+    const registrationCode = generateRandomString(40);
 
     // Enviamos un mensaje de verificación al email del usuario.
-    //await verifyEmail(email, registrationCode);
+    await verifyEmail(email, registrationCode);
 
     // Guardamos al usuario en la base de datos junto al código de registro.
     await connection.query(
@@ -45,8 +45,8 @@ const nuevoUsuario = async (req, res, next) => {
     );
 
     res.send({
-      status: 'ok',
-      message: 'Usuario registrado',
+      status: "ok",
+      message: "Usuario registrado",
     });
   } catch (error) {
     next(error);

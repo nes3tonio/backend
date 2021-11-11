@@ -21,23 +21,7 @@ const borroEspacio = async (req, res, next) => {
     for (const foto of fotos) {
       await deletePhoto(foto.nombre);
     }
-/* 
-    //obtenemos la infor del espacio
 
-    const [espacio] = await connection.query(
-      `
-        SELECT * FROM espacios WHERE id = ?`,
-      [idEspacio]
-    );
-
-    //si el espacio no existe lanzamos un error
-
-    if (espacio.lenght < 1) {
-      const error = new Error("La entrada no existe");
-      error.httpStatus = 404;
-      throw error;
-    }
- */
     //borramos el espacio
     await connection.query(`DELETE FROM espacios WHERE id = ?`, [idEspacio]);
     console.log("hola mundo");

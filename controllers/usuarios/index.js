@@ -1,11 +1,12 @@
-const obtenerUsuario = require('./obtenerUsuario');
-const borrarUsuario = require('./borrarUsuario');
-const editarUsuario = require('./editarUsuario');
-const nuevoUsuario = require('./nuevoUsuario');
-const logearUsuario = require('./logearUsuario');
-const editarPass = require('./editarPass');
-const recuperarPass = require('./recuperarPass');
-const resetearPass = require('./resetearPass');
+const obtenerUsuario = require("./obtenerUsuario");
+const borrarUsuario = require("./borrarUsuario");
+const editarUsuario = require("./editarUsuario");
+const nuevoUsuario = require("./nuevoUsuario");
+const logearUsuario = require("./logearUsuario");
+const editarPass = require("./editarPass");
+const recuperarPass = require("./recuperarPass");
+const resetearPass = require("./resetearPass");
+const validarUsuario = require("./validarUsuario");
 
 module.exports = {
   obtenerUsuario,
@@ -16,4 +17,5 @@ module.exports = {
   editarPass,
   recuperarPass,
   resetearPass,
+  validarUsuario,
 };
