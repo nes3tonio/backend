@@ -1,5 +1,5 @@
 const getDB = require("../../bbdd/getDB");
-const { deletePhoto } = require("../../helpers");
+const { borroFoto } = require("../../helpers");
 
 const borroEspacio = async (req, res, next) => {
   let connection;
@@ -19,7 +19,7 @@ const borroEspacio = async (req, res, next) => {
 
     // Borramos las fotos del disco.
     for (const foto of fotos) {
-      await deletePhoto(foto.nombre);
+      await borroFoto(foto.nombre);
     }
 
     //borramos el espacio

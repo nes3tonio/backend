@@ -1,37 +1,37 @@
-const getDB = require('../bbdd/getDB');
+const getDB = require("../bbdd/getDB");
 
 const canEdit = async (req, res, next) => {
-    let connection;
+  let connection;
 
-    try {
-        connection = await getDB();
+  try {
+    connection = await getDB();
 
-        // Obtenemos el id de la entrada.
-        const { idEspacio } = req.params;
+    // Obtenemos el id de la entrada.
+    const { idEspacio } = req.params;
 
-        // Obtenemos el id de usuario de la entrada.
-        const [owner] = await connection.query(
-            `SELECT idUsuario FROM entries WHERE id = ?`,
-            [idEspacio]
-        );
+    // Obtenemos el id de usuario de la entrada.
+    const [owner] = await connection.query(
+      `SELECT idUsuario FROM espacios WHERE id = ?`,
+      [idEspacio]
+    );
 
-        // Si el usuario que hace la request no es el propietario o no
-        // es el administrador lanzamos un error.
-        if (
-            owner[0].idUsuario !== req.usuarioAuth.id &&
-            req.usuarioAuth.role !== 'admin'
-        ) {
-            const error = new Error('No tienes suficientes permisos');
-            error.httpStatus = 401;
-            throw error;
-        }
-
-        next();
-    } catch (error) {
-        next(error);
-    } finally {
-        if (connection) connection.release();
+    // Si el usuario que hace la request no es el propietario o no
+    // es el administrador lanzamos un error.
+    if (
+      owner[0].idUsuario !== req.authUsuario.id &&
+      req.authUsuario.role !== "administrador"
+    ) {
+      const error = new Error("No tienes suficientes permisos");
+      error.httpStatus = 401;
+      throw error;
     }
+
+    next();
+  } catch (error) {
+    next(error);
+  } finally {
+    if (connection) connection.release();
+  }
 };
 
 module.exports = canEdit;

@@ -1,5 +1,6 @@
 const getDB = require("../../bbdd/getDB");
 const { formatDate, validate } = require("../../helpers");
+const nuevoEspacioSchema = require("../../schemas/nuevoEspacioSchema");
 
 const nuevoEspacio = async (req, res, next) => {
   let connection;

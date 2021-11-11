@@ -3,7 +3,7 @@ const getDB = require("../../bbdd/getDB");
 const {
   formatDate,
   generateRandomString,
-  deletePhoto,
+  borroFoto,
 } = require("../../helpers");
 
 const borrarUsuario = async (req, res, next) => {
@@ -16,7 +16,7 @@ const borrarUsuario = async (req, res, next) => {
 
     //no sé si esto va a funcionar (el .role en concreto)
     const userRole = req.authUsuario.role;
-    
+
     if (userRole === "administrador") {
       console.log("hola que tal AQUI");
       const error = new Error("No se puede borrar un usuario administrador");
@@ -37,9 +37,9 @@ const borrarUsuario = async (req, res, next) => {
       "SELECT avatar FROM usuarios WHERE id = ?",
       [idUsuario]
     );
-   
+
     if (usuario[0].avatar) {
-      await deletePhoto(usuario[0].avatar);
+      await borroFoto(usuario[0].avatar);
     }
 
     await connection.query(

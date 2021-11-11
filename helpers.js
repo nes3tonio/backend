@@ -1,12 +1,12 @@
-const { format } = require('date-fns');
-const sharp = require('sharp');
-const path = require('path');
-const { ensureDir, unlink } = require('fs-extra');
-const uuid = require('uuid');
+const { format } = require("date-fns");
+const sharp = require("sharp");
+const path = require("path");
+const { ensureDir, unlink } = require("fs-extra");
+const uuid = require("uuid");
 const { UPLOADS_DIRECTORY, SENDGRID_API_KEY, SENDGRID_FROM } = process.env;
+const crypto = require("crypto");
+const sgMail = require("@sendgrid/mail");
 const uploadsDir = path.join(__dirname, UPLOADS_DIRECTORY);
-const crypto = require('crypto');
-const sgMail = require('@sendgrid/mail');
 
 // Asignamos el API Key a Sendgrid.
 sgMail.setApiKey(SENDGRID_API_KEY);
@@ -21,7 +21,7 @@ function getRandomValue(min, max) {
 }
 
 function formatDate(date) {
-  return format(date, 'yyyy-MM-dd HH:mm:ss');
+  return format(date, "yyyy-MM-dd HH:mm:ss");
 }
 
 async function validate(schema, data) {
@@ -32,8 +32,13 @@ async function validate(schema, data) {
     throw error;
   }
 }
+/**
+ * ###############
+ * ## fotoGuardada ##
+ * ###############
+ */
 
-async function savePhoto(imagen) {
+async function fotoGuardada(imagen) {
   // Comprobamos que el directorio de subida de imágenes existe.
 
   await ensureDir(uploadsDir);
@@ -63,16 +68,21 @@ async function savePhoto(imagen) {
   return imagennombre;
 }
 
-async function deletePhoto(photoName) {
+/**
+ * #################
+ * ## borroFoto ##
+ * #################
+ */
+async function borroFoto(nombreFoto) {
   // Creamos la ruta absoluta al archivo.
-  const photoPath = path.join(uploadsDir, photoName);
+  const fotoPath = path.join(uploadsDir, nombreFoto);
 
   // Eliminamos la foto del disco.
-  await unlink(photoPath);
+  await unlink(fotoPath);
 }
 
 function generateRandomString(length) {
-  return crypto.randomBytes(length).toString('hex');
+  return crypto.randomBytes(length).toString("hex");
 }
 
 /**
@@ -110,23 +120,19 @@ async function verifyEmail(email, registrationCode) {
     // Enviamos el mensaje al correo del usuario.
     await sendMail({
       to: email,
-<<<<<<< HEAD
       subject: "Activa tu usuario de ANDA",
-=======
-      subject: 'Activa tu usuario de Diario de Viajes',
->>>>>>> 515a2472815defe3e9a4f2b8d70fd2159ba094ce
       body: emailBody,
     });
   } catch (error) {
-    throw new Error('Error enviando el mensaje de verificación');
+    throw new Error("Error enviando el mensaje de verificación");
   }
 }
 
 module.exports = {
   formatDate,
   getRandomValue,
-  savePhoto,
-  deletePhoto,
+  fotoGuardada,
+  borroFoto,
   generateRandomString,
   sendMail,
   verifyEmail,
