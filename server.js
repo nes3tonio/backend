@@ -1,7 +1,7 @@
-require('dotenv').config();
-const express = require('express');
-const fileUpload = require('express-fileupload');
-const morgan = require('morgan');
+require("dotenv").config();
+const express = require("express");
+const fileUpload = require("express-fileupload");
+const morgan = require("morgan");
 
 const app = express();
 
@@ -12,10 +12,10 @@ const { PORT } = process.env;
  * ## Middlewares ##
  * #################
  */
-const espacioExiste = require('./middlewares/espacioExiste');
-const usuarioExiste = require('./middlewares/usuarioExiste');
-const authUsuario = require('./middlewares/authUsuario');
-const canEdit = require('./middlewares/canEdit');
+const espacioExiste = require("./middlewares/espacioExiste");
+const usuarioExiste = require("./middlewares/usuarioExiste");
+const authUsuario = require("./middlewares/authUsuario");
+const canEdit = require("./middlewares/canEdit");
 
 //CONTROLADORES
 //espacio
@@ -27,7 +27,8 @@ const {
   anadoFoto,
   borroEspacio,
   borroFotoEspacio,
-} = require('./controllers/espacios');
+  votarEspacio,
+} = require("./controllers/espacios");
 
 //usuarios
 const {
@@ -39,10 +40,11 @@ const {
   editarPass,
   recuperarPass,
   resetearPass,
-} = require('./controllers/usuarios');
+  validarUsuario,
+} = require("./controllers/usuarios");
 
 //Logger
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 //Deserializamos el body
 app.use(express.json());
@@ -52,74 +54,132 @@ app.use(express.json());
 app.use(fileUpload());
 
 //--ENDPOINTS DE ESPACIOS
+
 //agrego un espacio nuevo
-app.post('/espacios', nuevoEspacio);
+app.post("/espacios", authUsuario, nuevoEspacio);
 
 //edito un espacio
-app.put('/espacios/:idEspacio', editarEspacio);
+
+app.put(
+  "/espacios/:idEspacio",
+  authUsuario,
+  espacioExiste,
+  canEdit,
+  editarEspacio
+);
 
 //obtengo la lista de espacios
-app.get('/espacios', listadoEspacios);
+app.get("/espacios", listadoEspacios);
 
 //obtener un espacio en particular
 
-app.get('/espacios/:idEspacio', obtenerEspacio);
+app.get("/espacios/:idEspacio", espacioExiste, obtenerEspacio);
 
+//voto un espacio
+
+app.post(
+  "/espacios/:idEspacio/votos",
+  authUsuario,
+  espacioExiste,
+  votarEspacio
+);
 //añado una foto
-app.post('/espacios/:idEspacio/fotos', anadoFoto);
+app.post(
+  "/espacios/:idEspacio/fotos",
+  authUsuario,
+  espacioExiste,
+  canEdit,
+  anadoFoto
+);
 
 // borro un espacio
 
-app.delete('/espacios/:idEspacio', borroEspacio);
+app.delete(
+  "/espacios/:idEspacio",
+  authUsuario,
+  espacioExiste,
+  canEdit,
+  borroEspacio
+);
 
 //borro una foto de un espacio
 
-app.delete('/espacios/:idEspacio/fotos/:idFoto', borroFotoEspacio);
+app.delete(
+  "/espacios/:idEspacio/fotos/:idFoto",
+  authUsuario,
+  espacioExiste,
+  canEdit,
+  borroFotoEspacio
+);
 
 //ENDPOINTS DE USUARIOS
 
-//obtener usuario
-app.get('/usuarios/:idUsuario', authUsuario, obtenerUsuario);
-
-//Borrar usuario
-
-app.delete('/usuarios/:idUsuario', authUsuario, borrarUsuario);
-
-//editar usuario
-
-app.put('/usuarios/:idUsuario', authUsuario, editarUsuario);
-
 //creo un usuario pendiente de validar
 
-app.post('/usuarios', nuevoUsuario);
+app.post("/usuarios", nuevoUsuario);
 
 //logeo usuario
 
-app.post('/usuarios/login', logearUsuario);
+app.post("/usuarios/login", authUsuario, usuarioExiste, logearUsuario);
+
+//valido un usuario
+
+app.get("/usuarios/validate/:registrationCode", validarUsuario);
+
+//obtener usuario
+
+app.get("/usuarios/:idUsuario", authUsuario, usuarioExiste, obtenerUsuario);
+
+//Borrar usuario
+
+app.delete("/usuarios/:idUsuario", authUsuario, usuarioExiste, borrarUsuario);
+
+//editar usuario
+
+app.put("/usuarios/:idUsuario", authUsuario, usuarioExiste, editarUsuario);
 
 //editar la contraseña de usuario
 
-app.put('/usuarios/:idUsuario/password', authUsuario, editarPass);
+app.put(
+  "/usuarios/:idUsuario/password",
+  authUsuario,
+  usuarioExiste,
+  editarPass
+);
 
 //envia un codigo de recuperacion de pass al usuario
 
-app.put('/usuarios/password/recover', recuperarPass);
+app.put("/usuarios/password/recover", recuperarPass);
 
-//reseteo la pass
-app.put('/usuarios/password/reset', resetearPass);
+//reseteo la pass utilizando el codigo de recuperacion
+
+app.put("/usuarios/password/reset", resetearPass);
+
+//ENDOPOINTS DE RESERVAS
+
+/**
+ * ######################
+ * ## Middleware Error ##
+ * ######################
+ */
 
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(error.httpStatus || 500).send({
-    status: 'error',
+    status: "error",
     message: error.message,
   });
 });
+/**
+ * ##########################
+ * ## Middleware Not Found ##
+ * ##########################
+ */
 
 app.use((req, res) => {
   res.status(404).send({
-    status: 'error',
-    message: 'Not found',
+    status: "error",
+    message: "Not found",
   });
 });
 
