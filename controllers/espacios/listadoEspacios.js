@@ -24,7 +24,7 @@ const listadoEspacios = async (req, res, next) => {
       : "ASC";
 
     // Variable donde almacenaremos las entradas.
-    let entries;
+    let espacios;
 
     //Obtenemos la informacion de la entrada.
     if (search) {

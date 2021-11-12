@@ -69,7 +69,7 @@ async function main() {
             createdAt DATETIME NOT NULL           
         )
         `);
-    
+
     await connection.query(`
         CREATE TABLE votos (
             id INT PRIMARY KEY AUTO_INCREMENT,
@@ -86,7 +86,7 @@ async function main() {
     await connection.query(`
         CREATE TABLE fotos (
             id INT PRIMARY KEY AUTO_INCREMENT,
-            nombre VARCHAR(100),
+            name VARCHAR(100),
             idEspacio INT NOT NULL,
             FOREIGN KEY (idEspacio) REFERENCES espacios(id),
             createdAt DATETIME NOT NULL

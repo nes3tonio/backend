@@ -1,5 +1,5 @@
 const getDB = require("../../bbdd/getDB");
-const { formatDate, validate } = require("../../helpers");
+const { formatDate, validate, fotoGuardada } = require("../../helpers");
 const nuevoEspacioSchema = require("../../schemas/nuevoEspacioSchema");
 
 const nuevoEspacio = async (req, res, next) => {
@@ -7,6 +7,11 @@ const nuevoEspacio = async (req, res, next) => {
 
   try {
     connection = await getDB();
+    // Validamos los datos del body.
+    await validate(nuevoEspacioSchema, req.body);
+
+    // Obtenemos el id del usuario que está creando la entrada.
+    const idReqUser = req.userAuth.id;
 
     // Obtenemos las propiedades del body.
     const {
@@ -54,6 +59,32 @@ const nuevoEspacio = async (req, res, next) => {
         createdAt,
       ]
     );
+    // Obtenemos el id de la entrada creada.
+    const idEspacio = nuevoEspacio.insertId;
+
+    // Comprobamos si "req.files" existe y si tiene contenido. Si es así guardamos las fotos.
+    if (req.files && Object.keys(req.files).length > 0) {
+      // Recorremos los valores de "req.files".
+      for (const foto of Object.values(req.files).slice(0, 3)) {
+        // Variable que almacenará el nombre de la imagen.
+        let fotoNombre;
+
+        try {
+          // Guardamos la foto en el servidor y obtenemos el nombre de la misma.
+          fotoNombre = await fotoGuardada(foto);
+        } catch (_) {
+          const error = new Error("Formato de archivo incorrecto");
+          error.httpStatus = 400;
+          throw error;
+        }
+
+        // Guardamos la foto.
+        await connection.query(
+          `INSERT INTO fotos (name, idEspacio, createdAt) VALUES (?, ?, ?)`,
+          [fotoNombre, idEspacio, formatDate(new Date())]
+        );
+      }
+    }
 
     res.send({
       status: "ok",

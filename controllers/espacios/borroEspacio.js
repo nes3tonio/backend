@@ -13,7 +13,7 @@ const borroEspacio = async (req, res, next) => {
 
     // Seleccionamos las fotos relacionadas con la entrada.
     const [fotos] = await connection.query(
-      `SELECT nombre FROM fotos WHERE idEspacio = ?`,
+      `SELECT name FROM fotos WHERE idEspacio = ?`,
       [idEspacio]
     );
 

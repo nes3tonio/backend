@@ -44,7 +44,7 @@ const anadoFoto = async (req, res, next) => {
 
     // Guardamos el nombre de la foto en la base de datos
     await connection.query(
-      `INSERT INTO fotos (nombre, idEspacio, createdAt) VALUES (?, ?, ?)`,
+      `INSERT INTO fotos (name, idEspacio, createdAt) VALUES (?, ?, ?)`,
       [nombreFoto, idEspacio, formatDate(new Date())]
     );
 
