@@ -14,7 +14,7 @@ const { PORT } = process.env;
  */
 const espacioExiste = require("./middlewares/espacioExiste");
 const usuarioExiste = require("./middlewares/usuarioExiste");
-const authUsuario = require("./middlewares/authUsuario");
+const userAuth = require("./middlewares/userAuth");
 const canEdit = require("./middlewares/canEdit");
 
 //CONTROLADORES
@@ -56,13 +56,13 @@ app.use(fileUpload());
 //--ENDPOINTS DE ESPACIOS
 
 //agrego un espacio nuevo
-app.post("/espacios", authUsuario, nuevoEspacio);
+app.post("/espacios", userAuth, nuevoEspacio);
 
 //edito un espacio
 
 app.put(
   "/espacios/:idEspacio",
-  authUsuario,
+  userAuth,
   espacioExiste,
   canEdit,
   editarEspacio
@@ -77,16 +77,12 @@ app.get("/espacios/:idEspacio", espacioExiste, obtenerEspacio);
 
 //voto un espacio
 
-app.post(
-  "/espacios/:idEspacio/votos",
-  authUsuario,
-  espacioExiste,
-  votarEspacio
-);
+app.post("/espacios/:idEspacio/votos", userAuth, espacioExiste, votarEspacio);
+
 //añado una foto
 app.post(
   "/espacios/:idEspacio/fotos",
-  authUsuario,
+  userAuth,
   espacioExiste,
   canEdit,
   anadoFoto
@@ -96,7 +92,7 @@ app.post(
 
 app.delete(
   "/espacios/:idEspacio",
-  authUsuario,
+  userAuth,
   espacioExiste,
   canEdit,
   borroEspacio
@@ -106,7 +102,7 @@ app.delete(
 
 app.delete(
   "/espacios/:idEspacio/fotos/:idFoto",
-  authUsuario,
+  userAuth,
   espacioExiste,
   canEdit,
   borroFotoEspacio
@@ -120,7 +116,7 @@ app.post("/usuarios", nuevoUsuario);
 
 //logeo usuario
 
-app.post("/usuarios/login", authUsuario, usuarioExiste, logearUsuario);
+app.post("/usuarios/login", logearUsuario);
 
 //valido un usuario
 
@@ -128,24 +124,19 @@ app.get("/usuarios/validate/:registrationCode", validarUsuario);
 
 //obtener usuario
 
-app.get("/usuarios/:idUsuario", authUsuario, usuarioExiste, obtenerUsuario);
+app.get("/usuarios/:idUsuario", userAuth, usuarioExiste, obtenerUsuario);
 
 //Borrar usuario
 
-app.delete("/usuarios/:idUsuario", authUsuario, usuarioExiste, borrarUsuario);
+app.delete("/usuarios/:idUsuario", userAuth, usuarioExiste, borrarUsuario);
 
 //editar usuario
 
-app.put("/usuarios/:idUsuario", authUsuario, usuarioExiste, editarUsuario);
+app.put("/usuarios/:idUsuario", userAuth, usuarioExiste, editarUsuario);
 
 //editar la contraseña de usuario
 
-app.put(
-  "/usuarios/:idUsuario/password",
-  authUsuario,
-  usuarioExiste,
-  editarPass
-);
+app.put("/usuarios/:idUsuario/password", userAuth, usuarioExiste, editarPass);
 
 //envia un codigo de recuperacion de pass al usuario
 

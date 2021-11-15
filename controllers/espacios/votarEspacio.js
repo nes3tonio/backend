@@ -11,7 +11,7 @@ const votarEspacio = async (req, res, next) => {
     const { idEspacio } = req.params;
 
     // Obtenemos el id del usuario que realiza el voto.
-    const idReqUsuario = req.authUsuario.id;
+    const idReqUsuario = req.userAuth.id;
 
     // Obtenemos los datos.
     const { voto } = req.body;

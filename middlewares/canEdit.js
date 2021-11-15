@@ -18,8 +18,8 @@ const canEdit = async (req, res, next) => {
     // Si el usuario que hace la request no es el propietario o no
     // es el administrador lanzamos un error.
     if (
-      owner[0].idUsuario !== req.authUsuario.id &&
-      req.authUsuario.role !== "administrador"
+      owner[0].idUsuario !== req.userAuth.id &&
+      req.userAuth.role !== "administrador"
     ) {
       const error = new Error("No tienes suficientes permisos");
       error.httpStatus = 401;

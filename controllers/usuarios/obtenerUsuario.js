@@ -8,10 +8,9 @@ const obtenerUsuario = async (req, res, next) => {
 
     // Obtenemos el id del usuario.
     const { idUsuario } = req.params;
-    
-    // Obtenemos el id del usuario que hace la request.
-    const idReqUsuario = req.authUsuario.id;
 
+    // Obtenemos el id del usuario que hace la request.
+    const idReqUsuario = req.userAuth.id;
 
     // Obtenemos los datos del usuario.
     const [usuario] = await connection.query(
@@ -23,22 +22,22 @@ const obtenerUsuario = async (req, res, next) => {
     );
 
     // Objeto con la info básica del usuario.
-    const userInfo = {
+    const usuarioInfo = {
       name: usuario[0].name,
       avatar: usuario[0].avatar,
     };
 
     // Si el usuario que solicita los datos es el dueño de dicho usuario agregamos información
     // extra.
-    if (usuario[0].id === idReqUsuario || req.authUsuario.role === "admin") {
-      userInfo.email = usuario[0].email;
-      userInfo.role = usuario[0].role;
-      userInfo.createdAt = usuario[0].createdAt;
+    if (usuario[0].id === idReqUsuario || req.userAuth.role === "admin") {
+      usuarioInfo.email = usuario[0].email;
+      usuarioInfo.role = usuario[0].role;
+      usuarioInfo.createdAt = usuario[0].createdAt;
     }
 
     res.send({
       status: "ok",
-      userInfo,
+      usuarioInfo,
     });
   } catch (error) {
     next(error);

@@ -12,43 +12,47 @@ const borrarUsuario = async (req, res, next) => {
   try {
     connection = await getDB();
 
+    // Obtenemos el id del usuario que queremos borrar.
     const { idUsuario } = req.params;
 
-    //no sé si esto va a funcionar (el .role en concreto)
-    const userRole = req.authUsuario.role;
-
-    if (userRole === "administrador") {
-      console.log("hola que tal AQUI");
-      const error = new Error("No se puede borrar un usuario administrador");
-      error.https = 403;
+    // Comprobamos que el id no se corresponda al id del administrador.
+    if (Number(idUsuario) === 1) {
+      const error = new Error(
+        "El administrador principal no puede ser eliminado"
+      );
+      error.httpStatus = 403;
       throw error;
     }
 
+    // Si el usuario que realiza la petición no es el dueño de la cuenta o no es
+    // administrador lanzamos un error.
     if (
-      req.authUsuario.id !== Number(idUsuario) &&
-      req.authUsuario.role !== "administrador"
+      req.userAuth.id !== Number(idUsuario) &&
+      req.userAuth.role !== "administrador"
     ) {
-      const error = new Error("No tienes los permisos necesarios");
-      error.https = 401;
+      const error = new Error("No tienes suficientes permisos");
+      error.httpStatus = 401;
       throw error;
     }
 
+    // Obtenemos el nombre del avatar.
     const [usuario] = await connection.query(
-      "SELECT avatar FROM usuarios WHERE id = ?",
+      `SELECT avatar FROM usuarios WHERE id = ?`,
       [idUsuario]
     );
 
+    // Si el usuario tiene avatar lo borramos del disco.
     if (usuario[0].avatar) {
-      await borroFoto(usuario[0].avatar);
+      await deletePhoto(usuario[0].avatar);
     }
 
+    // Anonimizamos al usuario.
     await connection.query(
       `
-                UPDATE usuarios
-                SET password = ?, name = "[deleted]", avatar = NULL, active = 0, deleted = 1, modifiedAt = ?
-                WHERE id = ?
-            `,
-      // por qué generaterandomstringaqui
+            UPDATE usuarios
+            SET password = ?, name = "[deleted]", avatar = NULL, active = 0, deleted = 1, modifiedAt = ?
+            WHERE id = ?
+        `,
       [generateRandomString(40), formatDate(new Date()), idUsuario]
     );
 
